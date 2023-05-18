@@ -2,11 +2,13 @@ package com.Geekster.DoctorsApplication.Controller;
 
 import com.Geekster.DoctorsApplication.DTO.SignInInput;
 import com.Geekster.DoctorsApplication.DTO.SignInOutput;
-import com.Geekster.DoctorsApplication.DTO.SignUpInput;
+import com.Geekster.DoctorsApplication.DTO.PatientSignUpInput;
 import com.Geekster.DoctorsApplication.DTO.SignUpOutput;
+import com.Geekster.DoctorsApplication.Model.AppointmentKey;
 import com.Geekster.DoctorsApplication.Model.Doctor;
 import com.Geekster.DoctorsApplication.Service.AuthenticationService;
 import com.Geekster.DoctorsApplication.Service.PatientService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +27,8 @@ public class PatientController {
 
     //Sign-up
     @PostMapping("/sign-up")
-    public ResponseEntity<SignUpOutput> signup(@RequestBody SignUpInput signUpInput){
-        return patientService.signUp(signUpInput);
+    public ResponseEntity<SignUpOutput> signup(@Valid  @RequestBody PatientSignUpInput patientSignUpInput){
+        return patientService.signUp(patientSignUpInput);
     }
 
     //Sign-in
@@ -47,5 +49,21 @@ public class PatientController {
             status = HttpStatus.FORBIDDEN;
         }
         return new ResponseEntity<>(allDoctors, status);
+    }
+
+    //Delete an appointment
+    @DeleteMapping("/cancelAppointment")
+    ResponseEntity<String> cancelAppointment(@RequestParam String userEmail , @RequestParam String token , @RequestBody AppointmentKey appointmentKey){
+        HttpStatus status;
+        String response =null;
+        if(authenticationService.authenticate(userEmail,token)){
+            patientService.cancelAppointment(appointmentKey);
+            response = "Appointment cancelled successfully..!!";
+            status = HttpStatus.OK;
+        }else{
+            response = "Invalid user..try again!!";
+            status = HttpStatus.BAD_REQUEST;
+        }
+        return new ResponseEntity<>(response,status);
     }
 }

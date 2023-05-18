@@ -1,6 +1,7 @@
 package com.Geekster.DoctorsApplication.Service;
 
 import com.Geekster.DoctorsApplication.Model.AuthenticationToken;
+import com.Geekster.DoctorsApplication.Model.Doctor;
 import com.Geekster.DoctorsApplication.Model.Patient;
 import com.Geekster.DoctorsApplication.Repository.IAuthenticationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,10 @@ public class AuthenticationService {
 
     public AuthenticationToken getToken(Patient patient) {
         return tokenRepository.findByPatient(patient);
+    }
+
+    public AuthenticationToken getToken(Doctor  doctor) {
+        return tokenRepository.findByDoctor(doctor);
     }
     public boolean authenticate(String userEmail, String token) {
         AuthenticationToken authenticationToken = tokenRepository.findFirstByToken(token);

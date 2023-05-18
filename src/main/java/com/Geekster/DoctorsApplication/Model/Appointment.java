@@ -13,7 +13,7 @@ public class Appointment {
 
     @Id
     @EmbeddedId
-    private AppointmentKey appointmentKey;
+    private AppointmentKey id;
 
     @ManyToOne
     @JoinColumn(name = "fk_doctorId")

@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignUpInput {
+public class PatientSignUpInput {
 
-    @NotBlank(message = "Patient FirstName is required")
+    @NotBlank(message = "FirstName is required")
     @Size(min = 3, max = 20, message = "Name must be between 3 and 20 characters")
     private String userFirstName;
 
@@ -31,8 +31,5 @@ public class SignUpInput {
     The password must be at least 8 characters long
     */
     private String userPassword;
-
-    @Size(max = 12)
-    @Pattern(regexp = "\\+\\d{2}-\\d{10}", message = "Phone number must be in the format +xx-xxxxxxxxxx")
     private String userContact;
 }

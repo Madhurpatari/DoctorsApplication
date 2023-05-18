@@ -25,7 +25,7 @@ public class Patient {
     private String patientEmail;
     private String patientPassword;
     private String patientContact;
-    @OneToOne
+    @OneToOne(mappedBy = "patient")
     private Appointment appointment;
 
     //Parameterized Constructor
